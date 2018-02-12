@@ -23,7 +23,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import os
 
-# This files is to pre-train the brightkite dataset bacause the location is much sparse.
+# This files is to pre-train the gowalla dataset bacause the location is much sparse.
 #add PAD
 # Parameters
 n_hidden = 800
@@ -50,7 +50,7 @@ table_Y={}
 table_U={}
 total_T = list()
 total_U = list()
-total_seqlens = list()  # 原始估计长度
+total_seqlens = list()  # original length records
 #define the weight and bias dictionary
 with tf.name_scope("decoder_inital"):
     weights_de={
@@ -77,23 +77,23 @@ def extract_words_vocab():
     int_to_vocab={idx: word for idx, word in enumerate(voc_tra)}
     vocab_to_int = {word: idx for idx, word in int_to_vocab.items()}
     return int_to_vocab, vocab_to_int
-def getPvector(i):  # 传递的是轨迹ID 查询其Embedding tensor
+def getPvector(i):  # check embedding tensor
     return table_X[i]
 
 
-def getXs():  # 读取轨迹向量
-    fpointvec = open('data/gowalla_user_vector250d_.dat', 'r')  # 获取check-in向量 已经用word2vec训练得到
-    #     table_X={}  #建立字典索引
+def getXs():  # read poi's embeddings
+    fpointvec = open('data/gowalla_user_vector250d_.dat', 'r')  # get check-in tensor,which is from word2vec
+    #     table_X={}  #
     item = 0
     for line in fpointvec.readlines():
         lineArr = line.split()
 
         if (len(lineArr) < 250): #delete fist row
             continue
-        item += 1  # 统计条目数
+        item += 1  # 
         X = list()
         for i in lineArr[1:]:
-            X.append(float(i))  # 读取向量数据
+            X.append(float(i))  # read data line by line
             # if (float(i) > 1.0 or float(i) < -1.0):
             #     print "Error", i
         if lineArr[0] == '</s>':
@@ -142,7 +142,7 @@ def get_code(usertrue_id, User_List):
     for i in y_list:
         MASK = get_mask_index(i, User_List)  # mask_id
         # print MASK
-        y_[MASK * 2] = 0  # 说明其是朋友
+        y_[MASK * 2] = 0  # meaning friend
         y_[MASK * 2 + 1] = 1
         y[MASK] = 1
     y_ = np.reshape(y_, [n_classes, 2])
@@ -155,7 +155,7 @@ def get_code_un(list, User_List):
     for i in list:
         MASK = get_mask_index(i, User_List)  # mask_id
         # print MASK
-        y_[MASK * 2] = 0  # 说明其是朋友
+        y_[MASK * 2] = 0  # friend
         y_[MASK * 2 + 1] = 1
         y[MASK] = 1
     y_ = np.reshape(y_, [n_classes, 2])
@@ -177,13 +177,13 @@ def unkown_tra():
 def readtraindata():
     test_T = list()
     test_UserT = list()
-    test_lens = list()  # gowalla_scopus_1104.dat
+    test_lens = list()  
     ftraindata = open('data/gowalla_scopus_1104.dat',
                       'r')  # gowalla_scopus_1006.dat
-    tempT=list()  #临时数据 所有数据
-    pointT = list()  # 轨迹ID集合
-    userT = list()  # 用户ID
-    seqlens = list()  # 句子长度或者说是轨迹点的个数
+    tempT=list()  #all data
+    pointT = list()  # sub trajectories
+    userT = list()  # user ID
+    seqlens = list()  # length set of sub-trajectories
     item = 0
     for line in ftraindata.readlines():
         lineArr = line.split()
@@ -193,9 +193,9 @@ def readtraindata():
         tempT.append(X)
         userT.append(int(X[0]))
         pointT.append(X[1:])
-        seqlens.append(len(X) - 1)  # 包含了一个用户data
+        seqlens.append(len(X) - 1)  # including one user's data
         item += 1
-    # Test 98481
+    # Test data
     Train_Size = 20107
     pointT = pointT[:Train_Size]  # all tra
     userT = userT[:Train_Size]  # all user
@@ -216,7 +216,7 @@ def readtraindata():
     for i in range(len(tempT)):
         if (int(tempT[i][0]) in all_U_List): #INT TYPE
             all_T.append(tempT[i][1:])
-            TRA_ALL.append(int(tempT[i][0])) #存储用户ID
+            TRA_ALL.append(int(tempT[i][0])) #store user ID
     print 'UNKNOWN ----->', len(all_T)
 
     flag = 0
@@ -224,17 +224,17 @@ def readtraindata():
     temp_pointT = list()
     temp_userY = list()
     temp_seqlens = list()
-    User = 0  # 记录用户数量
+    User = 0  # record user number
     rate = 0.5
     for index in range(len(pointT)):
         if (userT[index] != flag or index == (len(pointT) - 1)):
             User += 1
-            # 分割数据
+            # split the data for TSCI-RT test
             if (count > 1):  # 分割/home/gaoqiang/workspace_demo
                 # print "count",count," ",index
-                test_T += (pointT[int((index - math.ceil(count * rate))):index])  # 测试数据轨迹点
-                test_UserT += (userT[int((index - math.ceil(count * rate))):index])  # 测试数据用户
-                test_lens += (seqlens[int((index - math.ceil(count * rate))):index])  # 测试数据轨迹长
+                test_T += (pointT[int((index - math.ceil(count * rate))):index])  # 
+                test_UserT += (userT[int((index - math.ceil(count * rate))):index])  # 
+                test_lens += (seqlens[int((index - math.ceil(count * rate))):index])  # 
                 temp_pointT += (pointT[int((index - count)):int((index - count * rate))])
                 temp_userY += (userT[int((index - count)):int((index - count * rate))])
                 temp_seqlens += (seqlens[int((index - count)):int((index - count * rate))])
@@ -242,8 +242,8 @@ def readtraindata():
                 temp_pointT += (pointT[int((index - count)):int((index))])
                 temp_userY += (userT[int((index - count)):int((index))])
                 temp_seqlens += (seqlens[int((index - count)):int((index))])
-            count = 1;  # 复位
-            flag = userT[index]  # 更新
+            count = 1;  # 
+            flag = userT[index]  # update
         else:
             count += 1
 
@@ -255,7 +255,7 @@ def readtraindata():
     print 'Total Numbers=', item - 1
     print 'train trajectories number=', len(total_T)
     print 'Train Size=', len(pointT), ' Test Size=', len(test_T), "User numbers=", len(User_List)
-    return TRA_ALL,all_T, pointT,userT,seqlens,test_T,test_UserT,test_lens,User_List, total_T, total_U, total_seqlens  # 返回相关参数
+    return TRA_ALL,all_T, pointT,userT,seqlens,test_T,test_UserT,test_lens,User_List, total_T, total_U, total_seqlens  #
 
 #Encoder layer
 def get_encoder_layer(encoder_input, keep_prob,reuse=False):
@@ -263,12 +263,12 @@ def get_encoder_layer(encoder_input, keep_prob,reuse=False):
         encoder_input = tf.nn.embedding_lookup(dic_embeddings, encoder_input)
         input_=tf.transpose(encoder_input,[1,0,2])
         fw_lstm_cell = tf.contrib.rnn.BasicLSTMCell(n_hidden, forget_bias=1.0,
-                                                    state_is_tuple=True)  # 前向 , state_is_tuple=True
-        fw_lstm_cell = tf.contrib.rnn.DropoutWrapper(fw_lstm_cell, output_keep_prob=keep_prob)  # 加入dropout
+                                                    state_is_tuple=True)  #, state_is_tuple=True
+        fw_lstm_cell = tf.contrib.rnn.DropoutWrapper(fw_lstm_cell, output_keep_prob=keep_prob)  # add dropout
         bw_lstm_cell = tf.contrib.rnn.BasicLSTMCell(n_hidden, forget_bias=1.0,
-                                                    state_is_tuple=True)  # 后向 , state_is_tuple=True
-        bw_lstm_cell = tf.contrib.rnn.DropoutWrapper(bw_lstm_cell, output_keep_prob=keep_prob)  # 加入dropout
-        # 预留多层正反向LSTM功能
+                                                    state_is_tuple=True)  #, state_is_tuple=True
+        bw_lstm_cell = tf.contrib.rnn.DropoutWrapper(bw_lstm_cell, output_keep_prob=keep_prob)  # add dropout
+        # multi-layer
         cell_fw = tf.nn.rnn_cell.MultiRNNCell([fw_lstm_cell], state_is_tuple=True)
         cell_bw = tf.nn.rnn_cell.MultiRNNCell([bw_lstm_cell], state_is_tuple=True)
         ((encoder_fw_outputs,
@@ -315,7 +315,7 @@ def get_decoder_layer(vae_z,decoder_embed_input,encode_state,keep_prob, is_train
             output, _, _ = tf.contrib.seq2seq.dynamic_decode(training_decoder,
                                                          impute_finished=True,
                                                          maximum_iterations=max_target_sequence_length)
-        else:  # 测试 different type of decoder output
+        else:  #different type of decoder output
             copy = tf.tile(tf.constant([vocab_to_int['<GO>']]), [batch_size])
             predicting_helper = tf.contrib.seq2seq.GreedyEmbeddingHelper(dic_embeddings, copy, vocab_to_int['<EOS>'])
             predicting_decoder = tf.contrib.seq2seq.BasicDecoder(decode_cell, predicting_helper, decoder_initial_state)
@@ -325,7 +325,7 @@ def get_decoder_layer(vae_z,decoder_embed_input,encode_state,keep_prob, is_train
         predicting_logits = tf.identity(output.sample_id, name='predictions')
         training_logits = tf.identity(output.rnn_output, 'logits')
         masks = tf.sequence_mask(target_sequence_length, max_target_sequence_length, dtype=tf.float32, name='masks')
-        #target = tf.concat([target_input, tf.fill([batch_size, 1], vocab_to_int['<EOS>'])], 1)  # 掩码轨迹点
+        #target = tf.concat([target_input, tf.fill([batch_size, 1], vocab_to_int['<EOS>'])], 1)  # mask
         target = decoder_embed_input
         return output,predicting_logits,training_logits,masks,target
 ####--------
@@ -480,11 +480,11 @@ def train_tuf():
             while step < len(new_trainT)//batch_size:
                 start_i = step * batch_size
                 input_x = new_trainT[start_i:start_i + batch_size]
-                # 补全序列
+                # full sequence
                 sources_batch = pad_sentence_batch(input_x, vocab_to_int['<PAD>'])
                 encode_batch=eos_sentence_batch(input_x,vocab_to_int['<EOS>'])
                 input_batch=pad_sentence_batch(encode_batch,vocab_to_int['<PAD>'])
-                # 记录长度
+                # record length
                 pad_source_lengths = []
                 for source in input_x:
                     pad_source_lengths.append(len(source) + 1)
@@ -550,7 +550,7 @@ def train_tuf():
 
             print 'epoch',epoch,'ACC Train',acc_count/num,'tuf acc',tuf_acc,'un_acc',un_acc
             saver.save(sess, './out_data/GW_VAE.pkt')
-        # 画图
+        # draw pic
         # print TOTAL_LOSS
         if (os.path.exists("out_data/GW_loss_vae_new.txt")): os.remove('out_data/GW_loss_vae_new.txt')
         save_loss(LEARN_RATE,TOTAL_LOSS,TOTAL_ACC)
@@ -562,7 +562,7 @@ def save_loss(LEARN_RATE,TOTAL_LOSS,TOTAL_ACC):
     for i in range(len(TOTAL_LOSS)):
         fopen.write('epoch\t' + str(i) +'\t' +str(LEARN_RATE[i])+'\t'+str(TOTAL_LOSS[i]) +'\t'+ str(TOTAL_ACC[i])+'\n')
     fopen.close()
-#画图部分
+#pic part
 def draw_pic_unloss(LOSS):
     font = {'family': 'Trajectory',
             'weight': 'bold',
@@ -602,14 +602,7 @@ def get_batches(sources, batch_size, source_pad_int):
 
 
 def pad_sentence_batch(sentence_batch, pad_int):
-    '''
-    对batch中的序列进行补全，保证batch中的每行都有相同的sequence_length
-
-    参数：
-    - sentence batch
-    - pad_int: <PAD>对应索引号
-    '''
-    max_sentence = max([len(sentence) for sentence in sentence_batch]) #取最大长度
+    max_sentence = max([len(sentence) for sentence in sentence_batch]) #get max length
     return [sentence + [pad_int] * (max_sentence - len(sentence)) for sentence in sentence_batch]
 def prediction_tuf_unkown(sess,all_T,User_List,TRA_ALL,initial_learning_rate,min_kl_epoch):
     step=0
@@ -632,11 +625,11 @@ def prediction_tuf_unkown(sess,all_T,User_List,TRA_ALL,initial_learning_rate,min
         input_x = new_testT[start_i:start_i + batch_size]
 
 
-        #补全序列
+        #full sequence
         sources_batch = pad_sentence_batch(input_x, vocab_to_int['<PAD>'])
         encode_batch = eos_sentence_batch(input_x, vocab_to_int['<EOS>'])
         input_batch = pad_sentence_batch(encode_batch, vocab_to_int['<PAD>'])
-        # 记录长度
+        #
         pad_source_lengths = []
 
         for source in input_x:
@@ -674,11 +667,11 @@ def prediction_tuf_unkown(sess,all_T,User_List,TRA_ALL,initial_learning_rate,min
     lost_len = batch_size - lens
     input_x = last_x + new_testT[:lost_len]
 
-    # 补全序列
+    #
     sources_batch = pad_sentence_batch(input_x, vocab_to_int['<PAD>'])
     encode_batch = eos_sentence_batch(input_x, vocab_to_int['<EOS>'])
     input_batch = pad_sentence_batch(encode_batch, vocab_to_int['<PAD>'])
-    # 记录长度
+    #
     pad_source_lengths = []
     for source in input_x:
         pad_source_lengths.append(len(source) + 1)
@@ -712,11 +705,11 @@ def prediction_tuf(sess,testT,testU,User_List,initial_learning_rate,min_kl_epoch
         start_i = step * batch_size
         input_x = new_testT[start_i:start_i + batch_size]
 
-        #补全序列
+        #
         sources_batch = pad_sentence_batch(input_x, vocab_to_int['<PAD>'])
         encode_batch = eos_sentence_batch(input_x, vocab_to_int['<EOS>'])
         input_batch = pad_sentence_batch(encode_batch, vocab_to_int['<PAD>'])
-        # 记录长度
+        #
         pad_source_lengths = []
         for source in input_x:
             pad_source_lengths.append(len(source) + 1)
@@ -757,11 +750,11 @@ def prediction_tuf(sess,testT,testU,User_List,initial_learning_rate,min_kl_epoch
     lost_len = batch_size - lens
     input_x = last_x + new_testT[:lost_len]
 
-    # 补全序列
+    #
     sources_batch = pad_sentence_batch(input_x, vocab_to_int['<PAD>'])
     encode_batch = eos_sentence_batch(input_x, vocab_to_int['<EOS>'])
     input_batch = pad_sentence_batch(encode_batch, vocab_to_int['<PAD>'])
-    # 记录长度
+    #
     pad_source_lengths = []
     for source in input_x:
         pad_source_lengths.append(len(source) + 1)
