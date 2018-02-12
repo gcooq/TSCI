@@ -22,8 +22,8 @@ We use four different Location-based Social Network data as follows.
 # Performance
 
 # Usage
-*To run DeepTSCI, python GW_LSTM.py/GW_BLSTM.py. The outcome including model and results will be in the folder of out_data.
-*To run VAE-based DeepTSCI, run the following commands (pre-training and training):
+To run DeepTSCI, python GW_LSTM.py/GW_BLSTM.py. The outcome including model and results will be in the folder of out_data.<br>
+To run VAE-based DeepTSCI, run the following commands (pre-training and training):<br>
 *  python GW_VAE.py 
 *  python GW_VAE_S.py
 
