@@ -273,10 +273,10 @@ def get_encoder_layer(encoder_input, keep_prob,reuse=False):
         input_=tf.transpose(encoder_input,[1,0,2])
         fw_lstm_cell = tf.contrib.rnn.BasicLSTMCell(n_hidden, forget_bias=1.0,
                                                     state_is_tuple=True)  #state_is_tuple=True
-        fw_lstm_cell = tf.contrib.rnn.DropoutWrapper(fw_lstm_cell, output_keep_prob=keep_prob)  # 加入dropout
+        fw_lstm_cell = tf.contrib.rnn.DropoutWrapper(fw_lstm_cell, output_keep_prob=keep_prob)  # add dropout
         bw_lstm_cell = tf.contrib.rnn.BasicLSTMCell(n_hidden, forget_bias=1.0,
                                                     state_is_tuple=True)  # state_is_tuple=True
-        bw_lstm_cell = tf.contrib.rnn.DropoutWrapper(bw_lstm_cell, output_keep_prob=keep_prob)  # 加入dropout
+        bw_lstm_cell = tf.contrib.rnn.DropoutWrapper(bw_lstm_cell, output_keep_prob=keep_prob)  # add dropout
         # multi-layer
         cell_fw = tf.nn.rnn_cell.MultiRNNCell([fw_lstm_cell], state_is_tuple=True)
         cell_bw = tf.nn.rnn_cell.MultiRNNCell([bw_lstm_cell], state_is_tuple=True)
