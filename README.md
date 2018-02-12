@@ -14,6 +14,6 @@ This is the implement of our proposed model:DeepTSCI.
 * Brightkite:<http://snap.stanford.edu/data/loc-brightkite.html>
 * Foursquare(New York,Tokyo):<https://sites.google.com/site/yangdingqi/home/foursquare-dataset>
 * (remark) If you use these datasets, please citing the papers that the providers require to. For the social network, we use the same method as Guolei Yang's. Thanks for their help.(see reference [41] in our paper)
-# performance
+# Performance
 # Reference
 If the code help to you, please cite the reference...
