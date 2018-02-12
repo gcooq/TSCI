@@ -16,7 +16,7 @@ We use four different Location-based Social Network data as follows.
 * Gowalla: <http://snap.stanford.edu/data/loc-gowalla.html>
 * Brightkite: <http://snap.stanford.edu/data/loc-brightkite.html>
 * Foursquare(New York,Tokyo): <https://sites.google.com/site/yangdingqi/home/foursquare-dataset>
-* (remark) Please do not use these datasets for commercial purpose. For academic uses, please cite the paper.For Foursquare dataset, we use the same method as in [41] to construct the social networks. Thanks for their help.(see the reference [41] in the paper).
+* (remark) Please do not use these datasets for commercial purpose. For academic uses, please cite the paper. For Foursquare dataset, we use the same method as in [41] to construct the social networks. Thanks for their help.(see the reference [41] in the paper).
 
 # Performance
 
