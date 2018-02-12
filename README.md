@@ -21,5 +21,8 @@ We use four different Location-based Social Network data as follows.
 
 # Performance
 
+# Usage
+To run DeepTSCI, 
+
 # Reference
 Hope such an implementation could help you on your projects. Any comments and feedback are appreciated. 
