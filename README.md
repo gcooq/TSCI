@@ -1,5 +1,4 @@
-# TSCI
-TSCI (Trajectory-based Social Circle Inference) <br>
+# TSCI (Trajectory-based Social Circle Inference) <br>
 This is the implementation of the deep learning based TSCI model: DeepTSCI.
 
 # Environment
