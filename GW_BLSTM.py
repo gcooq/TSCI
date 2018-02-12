@@ -226,7 +226,7 @@ def readtraindata():
         if (userT[index] != flag or index == (len(pointT) - 1)):
             User += 1
             # data split
-            if (count > 1):  # split /home/gaoqiang/workspace_demo
+            if (count > 1):  # split
                 # print "count",count," ",index
                 test_T += (pointT[int((index - math.ceil(count * rate))):index])  # testing 
                 test_UserT += (userT[int((index - math.ceil(count * rate))):index])  # testing users 
