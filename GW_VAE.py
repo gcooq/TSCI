@@ -1,7 +1,7 @@
 # -*- coding:  UTF-8 -*-
 '''
-Created on 2017年7月28日
-@author: gaoqiang
+Created on 2017-7-28
+@author: anonymous
 '''
 from __future__ import division
 import tensorflow as tf
