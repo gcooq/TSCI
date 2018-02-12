@@ -1,19 +1,25 @@
 # TSCI
-The source code of TSCI <br>
-This is the implement of our proposed model:DeepTSCI.
+TSCI (Trajectory-based Social Circle Inference) <br>
+This is the implementation of the deep learning based TSCI model: DeepTSCI.
+
 # Environment
-* python 2.7
+* python >= 2.7
 * Tensorflow 1.0 or ++
-# Trajectory Splitting and POI Embedding
-* For capturing the mobility pattern of trajectory, We firstly split the trajectory into sub-trajectoy,the method we have explained in our paper. 
-* Next, we make the POIs embedding, the toolkite we used is wordv2vec, and this tool can download and install from website easily.
+
+# Trajectory splitting and POI embedding
+* To capture mobility patterns of trajectories, We first split each trajectory into sub-trajectories based on the fixed time interval (see the paper for the detailed explanation). 
+* Next, we embed POIs into low-dimensional vectors using the common method: wordv2vec.
+
 # Train
 # Evaluation
 # Dataset
+We use four different Location-based Social Network data as follows. 
 * Gowalla:<http://snap.stanford.edu/data/loc-gowalla.html>
 * Brightkite:<http://snap.stanford.edu/data/loc-brightkite.html>
 * Foursquare(New York,Tokyo):<https://sites.google.com/site/yangdingqi/home/foursquare-dataset>
-* (remark) If you use these datasets, please citing the papers that the providers require to. For the social network, we use the same method as Guolei Yang's. Thanks for their help.(see reference [41] in our paper)
+* (remark) Please do not use these datasets for commercial purpose. For academic uses, please cite the paper. We use the same method as in [41] to construct the social networks. Thanks for their help.(see the reference [41] in the paper).
+
 # Performance
+
 # Reference
-If the code help to you, please cite the reference...
+Hope such an implementation could help you on your projects. Any comments and feedback are appreciated. 
