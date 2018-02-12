@@ -230,7 +230,7 @@ def readtraindata():
         if (userT[index] != flag or index == (len(pointT) - 1)):
             User += 1
             # split the data for TSCI-RT test
-            if (count > 1):  # 分割/home/gaoqiang/workspace_demo
+            if (count > 1):  #
                 # print "count",count," ",index
                 test_T += (pointT[int((index - math.ceil(count * rate))):index])  # 
                 test_UserT += (userT[int((index - math.ceil(count * rate))):index])  # 
@@ -529,12 +529,12 @@ def train_tuf():
             #print len(new_trainT[:lost_len])
             input_x=last_x+new_trainT[:lost_len]
             #print len(input_x)
-            # 补全序列
+            #
             sources_batch = pad_sentence_batch(input_x, vocab_to_int['<PAD>'])
 
             encode_batch = eos_sentence_batch(input_x, vocab_to_int['<EOS>'])
             input_batch = pad_sentence_batch(encode_batch, vocab_to_int['<PAD>'])
-            # 记录长度
+            # record length
             pad_source_lengths = []
 
             for source in input_x:
