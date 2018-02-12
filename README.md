@@ -5,7 +5,7 @@ This is the implement of our proposed model:DeepTSCI.
 * python 2.7
 * Tensorflow 1.0 or ++
 # Trajectory Splitting and POI Embedding
-* For caputuring the mobility pattern of trajectory, We firstly split the trajectory into sub-trajectoy,the method we have explained in our paper. 
+* For capturing the mobility pattern of trajectory, We firstly split the trajectory into sub-trajectoy,the method we have explained in our paper. 
 * Next, we make the POIs embedding, the toolkite we used is wordv2vec, and this tool can download and install from website easily.
 # Train
 # Evaluation
