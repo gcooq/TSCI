@@ -26,7 +26,7 @@ import os
 # This files is to pre-train the brightkite dataset bacause the location is much sparse.
 #add PAD
 # Parameters
-n_hidden = 500
+n_hidden = 500 #hidden size
 batch_size =64 #batch
 n_input=250
 keep_prob = tf.placeholder("float")
