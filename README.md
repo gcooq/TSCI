@@ -9,17 +9,12 @@ This is the implementation of the deep learning based TSCI model: DeepTSCI.
 * To capture mobility patterns of trajectories, We first split each trajectory into sub-trajectories based on the fixed time interval (see the paper for the detailed explanation). 
 * Next, we embed POIs into low-dimensional vectors using the common method: wordv2vec.
 
-# Train
-# Evaluation
 # Dataset
 We use four different Location-based Social Network data as follows. 
 * Gowalla: <http://snap.stanford.edu/data/loc-gowalla.html>
 * Brightkite: <http://snap.stanford.edu/data/loc-brightkite.html>
 * Foursquare(New York,Tokyo): <https://sites.google.com/site/yangdingqi/home/foursquare-dataset>
 * (remark) Please do not use these datasets for commercial purpose. For academic uses, please cite the paper. For Foursquare dataset, we use the same method as in [41] to construct the social networks. Thanks for their help.(see the reference [41] in the paper).
-
-# Performance
-
 # Usage
 Using Gowalla data as the example here, similarly to other datasets. <br>
 To run LSTM-based DeepTSCI, python GW_LSTM.py/GW_BLSTM.py. The outcome including model and results will be in the folder of out_data.<br>
